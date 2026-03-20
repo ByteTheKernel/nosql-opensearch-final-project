@@ -1,0 +1,33 @@
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0,
+    "refresh_interval": "1s"
+  },
+  "mappings": {
+    "properties": {
+      "event_id": {
+        "type": "keyword"
+      },
+      "student_id": {
+        "type": "keyword"
+      },
+      "event_type": {
+        "type": "keyword"
+      },
+      "source": {
+        "type": "keyword"
+      },
+      "course_id": {
+        "type": "keyword"
+      },
+      "timestamp": {
+        "type": "date"
+      },
+      "details": {
+        "type": "object",
+        "enabled": true
+      }
+    }
+  }
+}

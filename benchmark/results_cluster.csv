@@ -1,0 +1,9 @@
+avg_latency_ms,chunk_size,docs_per_sec,documents,environment,index_name,median_latency_ms,operation_type,ops_per_sec,p95_latency_ms,p99_latency_ms,query_name,repetitions,total_time_sec
+335.640209,1000,2660.84015,5000,cluster,students_bench_py,256.789508,insert,,547.947017,592.990517,,,1.879106
+122.006449,1000,7244.104651,25000,cluster,student_activity_bench_py,97.125047,insert,,221.246304,492.366324,,,3.451082
+12.735838,,,,cluster,students_bench_py,10.769728,search,77.194608,20.127673,53.324959,term_faculty,100,1.295427
+8.433157,,,,cluster,students_bench_py,7.935994,search,115.805971,10.400407,20.649078,term_program,100,0.863513
+8.499497,,,,cluster,students_bench_py,7.834642,search,114.950909,9.893453,26.856121,nested_course,100,0.869937
+10.286053,,,,cluster,students_bench_py,6.116103,search,95.980233,11.925777,126.622387,agg_faculty,100,1.041881
+5.761556,,,,cluster,students_bench_py,5.408815,search,169.76232,6.946496,12.209614,avg_gpa,100,0.589059
+5.451864,,,,cluster,student_activity_bench_py,5.093816,search,179.078029,5.885178,16.169677,activity_by_source,100,0.558416

@@ -1,0 +1,68 @@
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0,
+    "refresh_interval": "1s"
+  },
+  "mappings": {
+    "properties": {
+      "student_id": {
+        "type": "keyword"
+      },
+      "full_name": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "faculty": {
+        "type": "keyword"
+      },
+      "program": {
+        "type": "keyword"
+      },
+      "year": {
+        "type": "integer"
+      },
+      "age": {
+        "type": "integer"
+      },
+      "gpa": {
+        "type": "float"
+      },
+      "city": {
+        "type": "keyword"
+      },
+      "dormitory": {
+        "type": "boolean"
+      },
+      "tags": {
+        "type": "keyword"
+      },
+      "created_at": {
+        "type": "date"
+      },
+      "courses": {
+        "type": "nested",
+        "properties": {
+          "course_id": {
+            "type": "keyword"
+          },
+          "course_name": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword"
+              }
+            }
+          },
+          "grade": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  }
+}

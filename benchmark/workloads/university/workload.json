@@ -1,0 +1,200 @@
+{
+  "name": "university",
+  "description": "Custom OpenSearch Benchmark workload for university students project",
+
+  "indices": [
+    {
+      "name": "students_bench",
+      "body": "students-index.json"
+    }
+  ],
+
+  "corpora": [
+    {
+      "name": "students-corpus",
+      "documents": [
+        {
+          "source-file": "students.json",
+          "document-count": 5000,
+          "target-index": "students_bench",
+          "includes-action-and-meta-data": false
+        }
+      ]
+    }
+  ],
+
+  "operations": [
+    {
+      "name": "create-index",
+      "operation-type": "create-index",
+      "index": "students_bench"
+    },
+    {
+      "name": "delete-index",
+      "operation-type": "delete-index",
+      "index": "students_bench",
+      "only-if-exists": true
+    },
+    {
+      "name": "bulk-index-students",
+      "operation-type": "bulk",
+      "bulk-size": 500,
+      "indices": ["students_bench"],
+      "corpora": ["students-corpus"]
+    },
+
+    {
+      "name": "search-faculty",
+      "operation-type": "search",
+      "index": "students",
+      "body": {
+        "query": {
+          "term": {
+            "faculty": "Computer Science"
+          }
+        }
+      }
+    },
+    {
+      "name": "search-program",
+      "operation-type": "search",
+      "index": "students",
+      "body": {
+        "query": {
+          "term": {
+            "program": "Data Engineering"
+          }
+        }
+      }
+    },
+    {
+      "name": "search-course",
+      "operation-type": "search",
+      "index": "students",
+      "body": {
+        "query": {
+          "nested": {
+            "path": "courses",
+            "query": {
+              "term": {
+                "courses.course_id": "DB101"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "agg-faculty",
+      "operation-type": "search",
+      "index": "students",
+      "body": {
+        "size": 0,
+        "aggs": {
+          "by_faculty": {
+            "terms": {
+              "field": "faculty"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "avg-gpa",
+      "operation-type": "search",
+      "index": "students",
+      "body": {
+        "size": 0,
+        "aggs": {
+          "avg_gpa": {
+            "avg": {
+              "field": "gpa"
+            }
+          }
+        }
+      }
+    }
+  ],
+
+  "test_procedures": [
+    {
+      "name": "indexing-only",
+      "default": false,
+      "schedule": [
+        { "operation": "delete-index" },
+        { "operation": "create-index" },
+        { "operation": "bulk-index-students" }
+      ]
+    },
+
+    {
+      "name": "search-faculty-only",
+      "default": true,
+      "schedule": [
+        {
+          "operation": "search-faculty",
+          "clients": 1,
+          "warmup-iterations": 10,
+          "iterations": 50,
+          "target-throughput": 20
+        }
+      ]
+    },
+
+    {
+      "name": "search-program-only",
+      "default": false,
+      "schedule": [
+        {
+          "operation": "search-program",
+          "clients": 1,
+          "warmup-iterations": 10,
+          "iterations": 50,
+          "target-throughput": 20
+        }
+      ]
+    },
+
+    {
+      "name": "search-course-only",
+      "default": false,
+      "schedule": [
+        {
+          "operation": "search-course",
+          "clients": 1,
+          "warmup-iterations": 10,
+          "iterations": 50,
+          "target-throughput": 15
+        }
+      ]
+    },
+
+    {
+      "name": "agg-faculty-only",
+      "default": false,
+      "schedule": [
+        {
+          "operation": "agg-faculty",
+          "clients": 1,
+          "warmup-iterations": 5,
+          "iterations": 30,
+          "target-throughput": 10
+        }
+      ]
+    },
+
+    {
+      "name": "avg-gpa-only",
+      "default": false,
+      "schedule": [
+        {
+          "operation": "avg-gpa",
+          "clients": 1,
+          "warmup-iterations": 5,
+          "iterations": 30,
+          "target-throughput": 10
+        }
+      ]
+    }
+  ]
+}
